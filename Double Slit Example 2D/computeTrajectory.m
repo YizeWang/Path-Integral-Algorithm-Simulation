@@ -6,6 +6,7 @@ function [trajectory,noiseInput] = computeTrajectory(initState,simHorizon,param,
 %   initState           a value of current position
 %   simHorizon          the simulation steps
 %   param               system parameters
+%   constraintType      the type of constraints
 % Output:
 %   trajectory          a matrix of rollout trajectories
 %   noiseInput          a vector of noise input at first step
@@ -15,7 +16,7 @@ G = param.G;
 Q = param.Q;
 numSample = param.numSample;
 simInterval = param.simInterval;
-timeStep = size(simHorizon,2);
+timeStep = numel(simHorizon);
 options = optimset('Display','off');
 stateInputConstraint_e = param.stateInputConstraint_e;
 stateInputConstraint_F = param.stateInputConstraint_F;

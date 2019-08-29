@@ -6,12 +6,14 @@ function [cost,psi] = computeCost(trajectory,isBarrierDetected,param)
 % Input:
 %   trajectory          a matrix of rollout trajectories
 %   isBarrierDetected   a vector denotes whether path goes through barrier
+%   param               system parameters
 % Output:
 %   cost                a vector of cost accumulated along each path
 %   psi                 value of psi
 
 %% compute cost
 cost = inf(param.numSample,1);
+
 for n = 1:param.numSample
     if ~isBarrierDetected(n)
         cost(n) = 0.5*norm(trajectory(:,end,n))^2;
