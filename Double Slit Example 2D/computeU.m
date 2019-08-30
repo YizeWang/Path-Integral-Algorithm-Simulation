@@ -11,10 +11,10 @@ function [u] = computeU(cost,psi,noiseInput,param)
 %   isControlFound      whether optimal control input found
 
 %% compute u
-unweightedU = [0;0];
+unWeightedU = zeros(2,size(noiseInput,2));
 for n = 1:param.numSample
-    unweightedU = unweightedU + noiseInput(:,1,n).*exp(-1/param.gamma*(cost(n)-min(cost)));
+    unWeightedU = unWeightedU + noiseInput(:,:,n).*exp(-1/param.gamma*(cost(n)-min(cost)));
 end
-u = 1/psi*unweightedU/param.numSample;
+u = 1/psi*unWeightedU/param.numSample;
 
 end

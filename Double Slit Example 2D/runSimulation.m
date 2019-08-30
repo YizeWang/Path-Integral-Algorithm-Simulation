@@ -49,16 +49,17 @@ for currentTime = param.simStart:param.simInterval:param.simEnd-param.simInterva
     end
     [cost,psi] = computeCost(trajectory,isBarrierDetected,param);
     if psi == 0 % if psi 0, use previous control
+        u = u(:,2:end);
         fprintf("Warning: All Samples Crashed at "+num2str(currentTime)+"\n");
     else % if psi !0, compute new control with path integral
         u = computeU(cost,psi,noiseInput,param);
     end
-    state = state + param.G*u;
+    state = state + param.G*u(:,1);
     barrierStep = barrierStep - 1;
     
     % record data
     actualPath = [actualPath state];
-    U = [U u];
+    U = [U u(:,1)];
     J = [J -param.gamma*log(psi)];
     Cost = [Cost cost];
     Psi = [Psi psi];
