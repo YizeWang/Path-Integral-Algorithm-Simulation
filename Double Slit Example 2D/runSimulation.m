@@ -1,28 +1,24 @@
-tic
-clc
-clear all
-close all
-
 %% settings
 load('paramDoubleSlit');
+timeStart = tic;
 initState = [0;0];
 constraintType = 2;
+param.numSample = 100;
 param.barrierSide = 0.2;
-param.stateInputConstraint_e = @(x)[-abs(x(2));-abs(x(2))];
-param.stateInputConstraint_F = @(x)[-20 0;20 0];
-param.inputConstraint = [1 1;-1 -1];
-param.numSample = 20;
 param.barrierZ = [10;-10;-10;10];
+param.inputConstraint = [1 1;-1 -1];
+param.stateInputConstraint_F = @(x)[-20 0;20 0];
+param.stateInputConstraint_e = @(x)[-abs(x(2));-abs(x(2))];
 
 %% parameter initialization
-u = [0;0]; % if no control found at first step, implement 0 control
+simHorizon = param.simStart:param.simInterval:param.simEnd;
+u = zeros(2,numel(simHorizon)-1); % in case no control found at first time step
 U = [];
 J = [];
 Psi = [];
 Cost = [];
 state = initState;
 actualPath = [state];
-simHorizon = param.simStart:param.simInterval:param.simEnd;
 barrierStep = find(simHorizon==param.barrierTime);
 
 %% display constraint type
@@ -37,9 +33,8 @@ end
 
 %% compute actual path
 for currentTime = param.simStart:param.simInterval:param.simEnd-param.simInterval
-    if mod((currentTime-param.simStart)/(param.simEnd-param.simStart),0.1) == 0
-        disp("Completed: "+int2str((currentTime-param.simStart)/(param.simEnd-param.simStart)*100)+"%")
-    end
+    % display process bar
+    completionRate(numel(param.simStart:param.simInterval:currentTime)/numel(param.simStart:param.simInterval:param.simEnd-param.simInterval)*100);
     simHorizon = currentTime:param.simInterval:param.simEnd;
     [trajectory,noiseInput] = computeTrajectory(state,simHorizon,param,constraintType);
     if (currentTime > param.barrierTime)        % if behind barrier
@@ -50,7 +45,7 @@ for currentTime = param.simStart:param.simInterval:param.simEnd-param.simInterva
     [cost,psi] = computeCost(trajectory,isBarrierDetected,param);
     if psi == 0 % if psi 0, use previous control
         u = u(:,2:end);
-        fprintf("Warning: All Samples Crashed at "+num2str(currentTime)+"\n");
+        fprintf(['Warning: All Samples Crashed at ' num2str(currentTime) '\n']);
     else % if psi !0, compute new control with path integral
         u = computeU(cost,psi,noiseInput,param);
     end
@@ -68,9 +63,9 @@ end
 barrierStep = find(param.simStart:param.simInterval:param.simEnd==param.barrierTime*max(param.barrierX));
 isCollision = detectBarrier(actualPath,param,barrierStep);
 if isCollision
-    fprintf('Actual Path Crashed! \n')
+    fprintf('         Result: Actual Path Crashed! \n')
 else
-    fprintf('Successfully Passed Barrier \n')
+    fprintf('         Result: Successfully Passed Barrier \n')
 end
 %% plot figures
 % figure initialization
@@ -120,4 +115,5 @@ hold on
 plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,J)
 hold on
 
-toc
+% print elapsed time
+fprintf(['   Time Elapsed: ' num2str(toc(timeStart)) ' seconds\n']);
