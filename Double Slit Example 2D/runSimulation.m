@@ -1,9 +1,13 @@
+clc
+close all
+clear all
+
 %% settings
 load('paramDoubleSlit');
 timeStart = tic;
 initState = [0;0];
 constraintType = 2;
-param.numSample = 100;
+param.numSample = 5;
 param.barrierSide = 0.2;
 param.barrierZ = [10;-10;-10;10];
 param.inputConstraint = [1 1;-1 -1];
@@ -59,6 +63,7 @@ for currentTime = param.simStart:param.simInterval:param.simEnd-param.simInterva
     Cost = [Cost cost];
     Psi = [Psi psi];
 end
+
 %% actual path collision test
 barrierStep = find(param.simStart:param.simInterval:param.simEnd==param.barrierTime*max(param.barrierX));
 isCollision = detectBarrier(actualPath,param,barrierStep);
@@ -67,6 +72,7 @@ if isCollision
 else
     fprintf('         Result: Successfully Passed Barrier \n')
 end
+
 %% plot figures
 % figure initialization
 close all
