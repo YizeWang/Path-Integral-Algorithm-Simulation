@@ -7,7 +7,7 @@ load('paramDoubleSlit');
 timeStart = tic;
 initState = [0;0];
 constraintType = 2;
-param.numSample = 5;
+param.numSample = 1000;
 param.barrierSide = 0.2;
 param.barrierZ = [10;-10;-10;10];
 param.inputConstraint = [1 1;-1 -1];
