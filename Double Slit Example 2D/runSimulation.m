@@ -7,7 +7,7 @@ load('paramDoubleSlit');
 timeStart = tic;
 initState = [0;0];
 constraintType = 2;
-reSamPolicy = 'proj'; % proj or trandn
+reSamPolicy = 'trandn'; % proj or trandn
 param.numSample = 20;
 param.barrierSide = 0.2;
 param.barrierZ = [10;-10;-10;10];
@@ -85,7 +85,7 @@ plotSample(initState,0,param,constraintType,reSamPolicy);
 hold on
 % plot actual path
 subplot(2,2,2)
-plot3(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),actualPath(2,:));
+plot3(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),actualPath(2,:),'LineWidth',1);
 hold on
 % plot barrier
 fill3(param.barrierTime*param.barrierX,param.barrierSide*param.barrierY,param.barrierSide*param.barrierZ,'black');
