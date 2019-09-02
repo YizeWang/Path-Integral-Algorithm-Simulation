@@ -7,7 +7,8 @@ load('paramDoubleSlit');
 timeStart = tic;
 initState = [0;0];
 constraintType = 2;
-param.numSample = 1000;
+reSamPolicy = 'proj'; % proj or trandn
+param.numSample = 20;
 param.barrierSide = 0.2;
 param.barrierZ = [10;-10;-10;10];
 param.inputConstraint = [1 1;-1 -1];
@@ -40,7 +41,7 @@ for currentTime = param.simStart:param.simInterval:param.simEnd-param.simInterva
     % display process bar
     completionRate(numel(param.simStart:param.simInterval:currentTime)/numel(param.simStart:param.simInterval:param.simEnd-param.simInterval)*100);
     simHorizon = currentTime:param.simInterval:param.simEnd;
-    [trajectory,noiseInput] = computeTrajectory(state,simHorizon,param,constraintType);
+    [trajectory,noiseInput] = computeTrajectory(state,simHorizon,param,constraintType,reSamPolicy);
     if (currentTime > param.barrierTime)        % if behind barrier
         isBarrierDetected = false(param.numSample,1);
     else                                        % if before or at barrier
@@ -80,7 +81,7 @@ figure('Name',"Double Slit Example 2D")
 
 % plot rollouts
 subplot(2,2,1)
-plotSample(initState,0,param,constraintType);
+plotSample(initState,0,param,constraintType,reSamPolicy);
 hold on
 % plot actual path
 subplot(2,2,2)
@@ -99,9 +100,9 @@ hold on
 
 % plot control input sequence
 subplot(2,2,3)
-title("|x_2| and 10u_1",'fontsize',param.fontSize)
+title("|x_2| and 20u_1",'fontsize',param.fontSize)
 xlabel("Time",'fontsize',param.fontSize)
-ylabel("|x_2| or 10u_1",'fontsize',param.fontSize)
+ylabel("|x_2| or 20u_1",'fontsize',param.fontSize)
 hold on
 plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,10*U(1,:))
 hold on
