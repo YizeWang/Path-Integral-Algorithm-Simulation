@@ -4,12 +4,13 @@ clear all
 load('paramDoubleSlit');
 
 % settings
-initState = [1;1];
-currentTime = 0.5;
+initState = [0.2;1];
+currentTime = 1;
 constraintType = 2;
 param.numSample = 1000;
 
 % overwrite parameters
+param.maxAttempt = 10;
 param.barrierSide = 0.2;
 param.barrierZ = [10;-10;-10;10];
 param.inputConstraint = [1 1;-1 -1];

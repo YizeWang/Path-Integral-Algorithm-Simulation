@@ -5,10 +5,11 @@ clear all
 %% settings
 load('paramDoubleSlit');
 timeStart = tic;
-initState = [0.15;0];
+initState = [0;0];
 constraintType = 2;
-reSamPolicy = 'rej'; % proj or trandn
+reSamPolicy = 'rej'; % proj / trandn / rej
 param.numSample = 1000;
+param.maxAttempt = 10;
 param.barrierSide = 0.2;
 param.barrierZ = [10;-10;-10;10];
 param.inputConstraint = [1 1;-1 -1];
