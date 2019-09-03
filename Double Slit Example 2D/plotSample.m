@@ -5,7 +5,7 @@ function [] = plotSample(initState,currentTime,param,constraintType,reSamPolicy)
 simHorizon = currentTime:param.simInterval:param.simEnd;
 
 %% compute trajectories and collision
-[trajectory,~] = computeTrajectory(initState,simHorizon,param,constraintType,reSamPolicy);
+[trajectory,] = computeTrajectory(initState,simHorizon,param,constraintType,reSamPolicy);
 barrierStep = find(simHorizon==param.barrierTime*max(param.barrierX));
 isBarrierDetected = detectBarrier(trajectory,param,barrierStep);
 feasiblePath = trajectory(:,:,~isBarrierDetected);

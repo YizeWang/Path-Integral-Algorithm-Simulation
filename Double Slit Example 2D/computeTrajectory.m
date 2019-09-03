@@ -59,10 +59,15 @@ if strcmpi(reSamPolicy,'proj')
         end
     end
 elseif strcmpi(reSamPolicy,'trandn')
+    if ~isdiag(Q*Q')
+        error('Constraints must be decoupled on inputs.')
+    end
+    q1 = Q(1,1);
+    q2 = Q(2,2);
     if constraintType == 2 % state-input constraints
         for k = 2:timeStep
             for n = 1:numSample
-                noiseInput(:,k-1,n) = Q*sqrt(simInterval)*trandn([-0.05*abs(trajectory(2,k-1,n)) -inf],[0.05*abs(trajectory(2,k-1,n)) inf]);
+                noiseInput(:,k-1,n) = [truncatedGaussian(0,q1*sqrt(simInterval),-0.05*abs(trajectory(2,k-1,n)),0.05*abs(trajectory(2,k-1,n)));q2*randn];
                 trajectory(:,k,n) = trajectory(:,k-1,n) + G*noiseInput(:,k-1,n);
             end
         end

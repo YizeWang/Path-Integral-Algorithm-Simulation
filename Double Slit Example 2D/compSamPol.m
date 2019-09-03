@@ -7,7 +7,7 @@ load('paramDoubleSlit');
 initState = [1;1];
 currentTime = 0.5;
 constraintType = 2;
-param.numSample = 20;
+param.numSample = 10000;
 
 % overwrite parameters
 param.barrierSide = 0.2;
@@ -18,34 +18,35 @@ param.stateInputConstraint_e = @(x)[-abs(x(2));-abs(x(2))];
 
 % plot figures
 figure('Name',"Sampling Policy Comparison")
+edge = linspace(-0.1,0.1,40);
 subplot(2,2,1)
-feasiblePath = plotSample(initState,currentTime,param,constraintType,'proj');
-X11 = feasiblePath(1,end,:);
-X11 = X11(:);
+Temp1 = plotSample(initState,currentTime,param,constraintType,'proj');
+Temp12 = Temp1(1,1,:);
+noiseInput1 = Temp12(:);
 title("Re-Projection",'fontsize',param.fontSize)
 hold on
 subplot(2,2,3)
-histogram(X11)
+histogram(noiseInput1,edge)
 title("u_1 Histogram",'fontsize',param.fontSize)
 subplot(2,2,2)
-feasiblePath = plotSample(initState,currentTime,param,constraintType,'trandn');
-X12 = feasiblePath(1,end,:);
-X12 = X12(:);
+Temp2 = plotSample(initState,currentTime,param,constraintType,'trandn');
+Temp22 = Temp2(1,1,:);
+noiseInput2 = Temp22(:);
 title("Truncated Normal Distribution",'fontsize',param.fontSize)
 hold on
 subplot(2,2,4)
-histogram(X12)
+histogram(noiseInput2,edge)
 title("u_1 Histogram",'fontsize',param.fontSize)
 hold on
 
-function feasiblePath = plotSample(initState,currentTime,param,constraintType,reSamPolicy)
+function [noiseInput] = plotSample(initState,currentTime,param,constraintType,reSamPolicy)
 % plotSample function.
 
 %% load parameters
 simHorizon = currentTime:param.simInterval:param.simEnd;
 
 %% compute trajectories and collision
-[trajectory,~] = computeTrajectory(initState,simHorizon,param,constraintType,reSamPolicy);
+[trajectory,noiseInput] = computeTrajectory(initState,simHorizon,param,constraintType,reSamPolicy);
 barrierStep = find(simHorizon==param.barrierTime*max(param.barrierX));
 isBarrierDetected = detectBarrier(trajectory,param,barrierStep);
 feasiblePath = trajectory(:,:,~isBarrierDetected);
