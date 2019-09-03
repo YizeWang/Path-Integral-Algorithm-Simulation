@@ -5,10 +5,10 @@ clear all
 %% settings
 load('paramDoubleSlit');
 timeStart = tic;
-initState = [0;0];
+initState = [0.15;0];
 constraintType = 2;
 reSamPolicy = 'trandn'; % proj or trandn
-param.numSample = 20;
+param.numSample = 1000;
 param.barrierSide = 0.2;
 param.barrierZ = [10;-10;-10;10];
 param.inputConstraint = [1 1;-1 -1];
@@ -104,7 +104,7 @@ title("|x_2| and 20u_1",'fontsize',param.fontSize)
 xlabel("Time",'fontsize',param.fontSize)
 ylabel("|x_2| or 20u_1",'fontsize',param.fontSize)
 hold on
-plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,10*U(1,:))
+plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,20*U(1,:))
 hold on
 plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,abs(actualPath(2,1:end-1)),'color','r','LineWidth',0.5)
 hold on
