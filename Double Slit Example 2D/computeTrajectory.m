@@ -59,15 +59,34 @@ if strcmpi(reSamPolicy,'proj')
         end
     end
 elseif strcmpi(reSamPolicy,'trandn')
-    if ~isdiag(Q*Q')
-        error('Constraints must be decoupled on inputs.')
+    q1 = Q(1,1);
+    q2 = Q(2,2);
+    oriPDF = makedist('Normal','mu',0,'sigma',q1*sqrt(simInterval));
+    if constraintType == 2 % state-input constraints
+        for k = 2:timeStep
+            for n = 1:numSample
+                newPDF = truncate(oriPDF,-0.05*abs(trajectory(2,k-1,n)),0.05*abs(trajectory(2,k-1,n)));
+                noiseInput(1,k-1,n) = random(newPDF);
+                noiseInput(2,k-1,n) = q2*sqrt(simInterval)*randn(1);
+                trajectory(:,k,n) = trajectory(:,k-1,n) + G*noiseInput(:,k-1,n);
+            end
+        end
+    else
+        error('Only state-input constraint sovler is implemented.');
     end
+elseif strcmpi(reSamPolicy,'rej')
     q1 = Q(1,1);
     q2 = Q(2,2);
     if constraintType == 2 % state-input constraints
         for k = 2:timeStep
             for n = 1:numSample
-                noiseInput(:,k-1,n) = [truncatedGaussian(0,q1*sqrt(simInterval),-0.05*abs(trajectory(2,k-1,n)),0.05*abs(trajectory(2,k-1,n)));q2*randn];
+                noiseInput(1,k-1,n) = q1*sqrt(simInterval)*randn(1);
+                noiseInput(2,k-1,n) = q2*sqrt(simInterval)*randn(1);
+                attempt = 1;
+                while(abs(noiseInput(1,k-1,n))>0.05*abs(trajectory(2,k-1,n))&&attempt<10)
+                    noiseInput(1,k-1,n) = q1*sqrt(simInterval)*randn(1);
+                    attempt = attempt + 1;
+                end
                 trajectory(:,k,n) = trajectory(:,k-1,n) + G*noiseInput(:,k-1,n);
             end
         end

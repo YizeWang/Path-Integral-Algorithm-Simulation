@@ -7,7 +7,7 @@ load('paramDoubleSlit');
 initState = [1;1];
 currentTime = 0.5;
 constraintType = 2;
-param.numSample = 10000;
+param.numSample = 1000;
 
 % overwrite parameters
 param.barrierSide = 0.2;
@@ -19,27 +19,46 @@ param.stateInputConstraint_e = @(x)[-abs(x(2));-abs(x(2))];
 % plot figures
 figure('Name',"Sampling Policy Comparison")
 edge = linspace(-0.1,0.1,40);
-subplot(2,2,1)
-Temp1 = plotSample(initState,currentTime,param,constraintType,'proj');
+% re-projection
+tic
+subplot(2,3,1)
+[Tra1,Temp1] = plotSample(initState,currentTime,param,constraintType,'proj');
 Temp12 = Temp1(1,1,:);
 noiseInput1 = Temp12(:);
 title("Re-Projection",'fontsize',param.fontSize)
 hold on
-subplot(2,2,3)
+subplot(2,3,4)
 histogram(noiseInput1,edge)
 title("u_1 Histogram",'fontsize',param.fontSize)
-subplot(2,2,2)
-Temp2 = plotSample(initState,currentTime,param,constraintType,'trandn');
+toc
+% truncated Gaussian
+tic
+subplot(2,3,2)
+[Tra2,Temp2] = plotSample(initState,currentTime,param,constraintType,'trandn');
 Temp22 = Temp2(1,1,:);
 noiseInput2 = Temp22(:);
 title("Truncated Normal Distribution",'fontsize',param.fontSize)
 hold on
-subplot(2,2,4)
+subplot(2,3,5)
 histogram(noiseInput2,edge)
 title("u_1 Histogram",'fontsize',param.fontSize)
 hold on
+toc
+% rejection
+tic
+subplot(2,3,3)
+[Tra3,Temp3] = plotSample(initState,currentTime,param,constraintType,'rej');
+Temp32 = Temp3(1,1,:);
+noiseInput3 = Temp32(:);
+title("Rejection",'fontsize',param.fontSize)
+hold on
+subplot(2,3,6)
+histogram(noiseInput3,edge)
+title("u_1 Histogram",'fontsize',param.fontSize)
+hold on
+toc
 
-function [noiseInput] = plotSample(initState,currentTime,param,constraintType,reSamPolicy)
+function [trajectory,noiseInput] = plotSample(initState,currentTime,param,constraintType,reSamPolicy)
 % plotSample function.
 
 %% load parameters

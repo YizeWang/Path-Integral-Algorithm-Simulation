@@ -7,7 +7,7 @@ load('paramDoubleSlit');
 timeStart = tic;
 initState = [0.15;0];
 constraintType = 2;
-reSamPolicy = 'trandn'; % proj or trandn
+reSamPolicy = 'rej'; % proj or trandn
 param.numSample = 1000;
 param.barrierSide = 0.2;
 param.barrierZ = [10;-10;-10;10];
@@ -34,6 +34,11 @@ switch constraintType
         fprintf("Constraint Type: Input Constraints \n");
     case 2
         fprintf("Constraint Type: State-Input Constraints \n");
+end
+
+%% determine independence of inputs in constraints
+if ~isdiag(param.Q*param.Q')
+    error('Constraints must be decoupled on inputs.')
 end
 
 %% compute actual path
