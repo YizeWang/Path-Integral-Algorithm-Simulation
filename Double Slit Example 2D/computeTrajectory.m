@@ -61,15 +61,16 @@ if strcmpi(reSamPolicy,'proj')
 elseif strcmpi(reSamPolicy,'trandn')
     q1 = Q(1,1);
     q2 = Q(2,2);
-    oriPDF = makedist('Normal','mu',0,'sigma',q1*sqrt(simInterval));
     if constraintType == 2 % state-input constraints
         for k = 2:timeStep
             for n = 1:numSample
                 if trajectory(2,k-1,n)==0
                     noiseInput(1,k-1,n) = 0;
                 else
-                    newPDF = truncate(oriPDF,-0.05*abs(trajectory(2,k-1,n)),0.05*abs(trajectory(2,k-1,n)));
-                    noiseInput(1,k-1,n) = random(newPDF);
+                    sigma =  q1*sqrt(simInterval);
+                    PhiA = 0.5*(1+erf(((-0.05*abs(trajectory(2,k-1,n)))/sigma)/sqrt(2)));
+                    PhiB = 0.5*(1+erf(((0.05*abs(trajectory(2,k-1,n)))/sigma)/sqrt(2)));
+                    noiseInput(1,k-1,n) = erfinv(2*(PhiA+rand*(PhiB-PhiA))-1)*sqrt(2)*sigma;
                 end
                 noiseInput(2,k-1,n) = q2*sqrt(simInterval)*randn(1);
                 trajectory(:,k,n) = trajectory(:,k-1,n) + G*noiseInput(:,k-1,n);
@@ -95,9 +96,10 @@ elseif strcmpi(reSamPolicy,'rej')
                             noiseInput(1,k-1,n) = 0;
                             break;
                         else
-                            oriPDF = makedist('Normal','mu',0,'sigma',Q(1,1)*sqrt(simInterval));
-                            newPDF = truncate(oriPDF,-0.05*abs(trajectory(2,k-1,n)),0.05*abs(trajectory(2,k-1,n)));
-                            noiseInput(1,k-1,n) = random(newPDF);
+                            sigma =  q1*sqrt(simInterval);
+                            PhiA = 0.5*(1+erf(((-0.05*abs(trajectory(2,k-1,n)))/sigma)/sqrt(2)));
+                            PhiB = 0.5*(1+erf(((0.05*abs(trajectory(2,k-1,n)))/sigma)/sqrt(2)));
+                            noiseInput(1,k-1,n) = erfinv(2*(PhiA+rand*(PhiB-PhiA))-1)*sqrt(2)*sigma;
                             break;
                         end
                     end
