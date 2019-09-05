@@ -5,7 +5,7 @@ close all
 load('paramDoubleSlit')
 initState = 0;
 param.numSample = 10000;
-% param.barrierPos = [-19,-18,20;-20,-19,18];
+param.barrierPos = [-3,2,20;-20,-2,3];
 constraintType = 1;
 param.e = @(x)[-0.5;-0.05];
 param.F = @(x)[1;-1];

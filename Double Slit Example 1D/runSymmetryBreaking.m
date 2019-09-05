@@ -1,7 +1,11 @@
-
+clc
+clear all
 close all
 
-for i = 1:0.5:3.5
+ActualPath = [];
+halfLength = [0.3 0.5 0.7 1.0 1.5 2.0 2.5 3.0 3.5];
+
+for i = halfLength
 
 initState = 0;
 isConstrained = false;
@@ -11,7 +15,6 @@ param.barrierPos = [-4,i,20;
                     -20,-i,4];
 param.uMin = -0.03;
 param.uMax = 0.2;
-fontSize = 16;
 
 %% parameter initialization
 u = 0; % if no control found at first step
@@ -59,7 +62,12 @@ else
     fprintf("Successfully Passed Barrier! \n");
 end
 
-% plot actual path
+ActualPath = [ActualPath; actualPath];
+
+end
+
+%% 
+figure('Name','Symmetry Breaking Illustration')
 title("Actual Path",'FontSize',param.fontSize)
 xlabel("Time",'FontSize',param.fontSize)
 ylabel("Position",'FontSize',param.fontSize)
@@ -67,7 +75,35 @@ axis([param.simStart param.simEnd -4 4])
 ax = gca;
 ax.FontSize = param.fontSize;
 hold on
-plot(param.simStart:param.simInterval:param.simEnd,actualPath)
-hold on
+plot(param.simStart:param.simInterval:param.simEnd,ActualPath(1,:),'lineWidth',1,'color','r');
+param.barrierPos = [-4,halfLength(1),20;
+                    -20,-halfLength(1),4];
+line([param.barrierTime; param.barrierTime],param.barrierPos,'color','k','LineWidth',2);
+pause(10);
+
+for n = 2:size(ActualPath,1)
+    plot(param.simStart:param.simInterval:param.simEnd,ActualPath(1:n-1,:),'lineWidth',1,'color',[0.7 0.7 0.7]);
+    param.barrierPos = [-4,halfLength(n),20;
+                        -20,-halfLength(n),4];
+    line([param.barrierTime; param.barrierTime],param.barrierPos,'color','k','LineWidth',2)
+    plot(param.simStart:param.simInterval:param.simEnd,ActualPath(n,:),'lineWidth',1,'color','r');
+    pause(10);
 end
-legend('barrier length 2','barrier length 3','barrier length 4','barrier length 5','barrier length 6','barrier length 7','FontSize',param.fontSize)
+
+%%
+modAcutualPath = ActualPath;
+for n = 1:size(ActualPath,1)
+    if ActualPath(n,barrierStep)<0
+        modAcutualPath(n,:) = -modAcutualPath(n,:);
+    end
+end
+figure('Name','Modified Symmetry Breaking Illustration')
+title("Actual Path",'FontSize',param.fontSize)
+xlabel("Time",'FontSize',param.fontSize)
+ylabel("Position",'FontSize',param.fontSize)
+axis([param.simStart param.simEnd -4 4])
+ax = gca;
+ax.FontSize = param.fontSize;
+hold on
+plot(param.simStart:param.simInterval:param.simEnd,modAcutualPath,'lineWidth',1);
+legend('barrier length 0.6','barrier length 1.0','barrier length 1.4','barrier length 2.0','barrier length 3.0','barrier length 4.0','barrier length 5.0','barrier length 6.0','barrier length 7.0','FontSize',param.fontSize)

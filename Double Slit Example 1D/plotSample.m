@@ -27,7 +27,7 @@ function [] = plotSample(initState,currentTime,param,constraintType)
     title("Sample Visualization"+" "+"(Pass Rate:"+" "+num2str(passRate,3)+"%)",'FontSize',param.fontSize)
     xlabel("Time",'FontSize',param.fontSize)
     ylabel("Sample Position",'FontSize',param.fontSize)
-    axis([param.simStart param.simEnd -10 10])
+    axis([param.simStart param.simEnd -6 6])
     ax = gca;
     ax.FontSize = param.fontSize;
     hold on
