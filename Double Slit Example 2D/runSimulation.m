@@ -8,10 +8,11 @@ timeStart = tic;
 initState = [0;0];
 constraintType = 2;
 reSamPolicy = 'trandn'; % proj / trandn / rej
-param.numSample = 1000;
+param.numSample = 10000;
 param.maxAttempt = 10;
 param.barrierSide = 0.2;
 param.barrierZ = [10;-10;-10;10];
+param.P = [1 0;0 1];
 param.inputConstraint = [1 1;-1 -1];
 param.stateInputConstraint_F = @(x)[-20 0;20 0];
 param.stateInputConstraint_e = @(x)[-abs(x(2));-abs(x(2))];
@@ -106,9 +107,9 @@ hold on
 
 % plot control input sequence
 subplot(2,2,3)
-title("|x_2| and 20u_1",'fontsize',param.fontSize)
+title("±|x_2| and 20u_1",'fontsize',param.fontSize)
 xlabel("Time",'fontsize',param.fontSize)
-ylabel("|x_2| or 20u_1",'fontsize',param.fontSize)
+ylabel("±|x_2| or 20u_1",'fontsize',param.fontSize)
 hold on
 plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,20*U(1,:))
 hold on
@@ -116,7 +117,7 @@ plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,abs(actualP
 hold on
 plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,-abs(actualPath(2,1:end-1)),'color','r','LineWidth',0.5)
 hold on
-legend('20u_1','+/-|x_2|','fontsize',param.fontSize)
+legend('20u_1','±|x_2|','fontsize',param.fontSize)
 
 % plot optimal cost
 subplot(2,2,4)
@@ -128,5 +129,51 @@ hold on
 plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,J)
 hold on
 
+%% plot three view drawing
+figure('Name','Three View Drawing');
+subplot(2,2,1) % front view
+plot(param.simStart:param.simInterval:param.simEnd,actualPath(2,:),'LineWidth',1);
+title("Front View",'fontsize',param.fontSize)
+xlabel("Time",'fontsize',param.fontSize)
+ylabel("h",'fontsize',param.fontSize)
+hold on
+line([param.barrierX(1) param.barrierX(1)],[param.barrierSide*min(param.barrierZ) param.barrierSide*max(param.barrierZ)],'color','k','LineWidth',2);
+axis([0 2 -2 2])
+hold on
+subplot(2,2,2) % illustrative view
+plot3(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),actualPath(2,:),'LineWidth',1);
+hold on
+fill3(param.barrierTime*param.barrierX,param.barrierSide*param.barrierY,param.barrierSide*param.barrierZ,'black'); % plot barrier
+hold on
+title("Illustrative Diagram",'fontsize',param.fontSize)
+axisLimit = 1.5*param.barrierSide*max(abs([param.barrierY(:);param.barrierZ(:)]));
+axis ([0 param.simEnd -axisLimit axisLimit -axisLimit axisLimit])
+xlabel("Time",'fontsize',param.fontSize)
+ylabel("x",'fontsize',param.fontSize)
+zlabel("h",'fontsize',param.fontSize)
+hold on
+subplot(2,2,3) % top view
+plot(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),'LineWidth',1);
+hold on
+line([param.barrierX(1) param.barrierX(1)],[param.barrierSide*min(param.barrierY) param.barrierSide*max(param.barrierY)],'color','k','LineWidth',2);
+title("Top View",'fontsize',param.fontSize)
+xlabel("Time",'fontsize',param.fontSize)
+ylabel("x",'fontsize',param.fontSize)
+hold on
+axis([0 2 -0.3 0.3])
+subplot(2,2,4) % constraint satisfaction
+title("±|h| and 20u_x",'fontsize',param.fontSize)
+xlabel("Time",'fontsize',param.fontSize)
+ylabel("±|h| or 20u_x",'fontsize',param.fontSize)
+hold on
+plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,20*U(1,:))
+hold on
+plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,abs(actualPath(2,1:end-1)),'color','r','LineWidth',0.5)
+hold on
+plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,-abs(actualPath(2,1:end-1)),'color','r','LineWidth',0.5)
+hold on
+legend('20u_x','±|h|','fontsize',param.fontSize)
+
 % print elapsed time
 fprintf(['   Time Elapsed: ' num2str(toc(timeStart)) ' seconds\n']);
+fprintf([' Terminal State: [' num2str(actualPath(1,end)) ' ' num2str(actualPath(2,end)) ']\n'])

@@ -18,7 +18,7 @@ param.stateInputConstraint_F = @(x)[-20 0;20 0];
 param.stateInputConstraint_e = @(x)[-abs(x(2));-abs(x(2))];
 
 %% plot histogram only
-numSample = 1e5;
+numSample = 1e6;
 edge = linspace(-1,1,20+1);
 lowerBound = -1;
 upperBound = 1;

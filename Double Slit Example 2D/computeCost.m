@@ -12,8 +12,11 @@ function [cost,psi] = computeCost(trajectory,isBarrierDetected,param)
 %   psi                 value of psi
 
 %% compute cost
-cost = inf(param.numSample,1);
-cost(~isBarrierDetected) = reshape(0.5*(trajectory(1,end,~isBarrierDetected).^2+trajectory(2,end,~isBarrierDetected).^2),[],1);
+cost = zeros(param.numSample,1);
+for n = 1:param.numSample
+    cost(n) = 0.5*trajectory(:,end,n)'*param.P*trajectory(:,end,n);
+end
+cost(isBarrierDetected) = inf;
 
 %% compute psi
 if min(cost) == inf % if all path crashed
