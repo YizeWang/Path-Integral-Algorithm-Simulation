@@ -7,7 +7,7 @@ load('paramDoubleSlit');
 timeStart = tic;
 initState = [0;0];
 constraintType = 2;
-reSamPolicy = 'rej'; % proj / trandn / rej
+reSamPolicy = 'trandn'; % proj / trandn / rej
 param.numSample = 1000;
 param.maxAttempt = 10;
 param.barrierSide = 0.2;
