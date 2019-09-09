@@ -14,15 +14,16 @@ cost = reshape(0.5*(feasiblePath(1,end,:).^2+feasiblePath(2,end,:).^2),[],1);
 sampleWeight = (max(cost)-cost)/(max(cost)-min(cost));
 numcolor = size(feasiblePath,3);
 colorMat = jet(numcolor);
+crashedSampleColor = [0.5 0.5 0.5];
 
 if numel(cost) == 0 % no feasible path
     fprintf('No Feasible Path\n');
     if numel(size(inFeasiblePath)) ~= 3
-            plot3(simHorizon(1:barrierStep),inFeasiblePath(1,1:barrierStep),inFeasiblePath(2,1:barrierStep),'color','k');
+            plot3(simHorizon(1:barrierStep),inFeasiblePath(1,1:barrierStep),inFeasiblePath(2,1:barrierStep),'color',crashedSampleColor);
             hold on
     else
         for n = 1:size(inFeasiblePath,3)
-            plot3(simHorizon(1:barrierStep),inFeasiblePath(1,1:barrierStep,n),inFeasiblePath(2,1:barrierStep,n),'color','k');
+            plot3(simHorizon(1:barrierStep),inFeasiblePath(1,1:barrierStep,n),inFeasiblePath(2,1:barrierStep,n),'color',crashedSampleColor);
             hold on
         end
     end
@@ -45,11 +46,11 @@ else
     end
     if ~isempty(inFeasiblePath)
         if numel(size(inFeasiblePath)) ~= 3
-                plot3(simHorizon(1:barrierStep),inFeasiblePath(1,1:barrierStep),inFeasiblePath(2,1:barrierStep),'color','k');
+                plot3(simHorizon(1:barrierStep),inFeasiblePath(1,1:barrierStep),inFeasiblePath(2,1:barrierStep),'color',crashedSampleColor);
                 hold on
         else
             for n = 1:size(inFeasiblePath,3)
-                plot3(simHorizon(1:barrierStep),inFeasiblePath(1,1:barrierStep,n),inFeasiblePath(2,1:barrierStep,n),'color','k');
+                plot3(simHorizon(1:barrierStep),inFeasiblePath(1,1:barrierStep,n),inFeasiblePath(2,1:barrierStep,n),'color',crashedSampleColor);
                 hold on
             end
         end
@@ -66,9 +67,9 @@ hold on
 % figure settings
 passRate = (1-sum(isBarrierDetected)/param.numSample)*100;
 title("Sample Visualization"+" "+"(Pass Rate:"+" "+num2str(passRate,3)+"%)",'fontsize',param.fontSize)
-xlabel("Time",'fontsize',param.fontSize)
-ylabel("x_1",'fontsize',param.fontSize)
-zlabel("x_2",'fontsize',param.fontSize)
+xlabel("t",'fontsize',param.fontSize)
+ylabel("x",'fontsize',param.fontSize)
+zlabel("h",'fontsize',param.fontSize)
 axisLimit = axis;
 axis ([0 param.simEnd -max(abs(axisLimit(3:6))) max(abs(axisLimit(3:6))) -max(abs(axisLimit(3:6))) max(abs(axisLimit(3:6)))])
 hold on
