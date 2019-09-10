@@ -6,13 +6,13 @@ clear all
 load('paramDoubleSlit');
 timeStart = tic;
 initState = [0;0];
-constraintType = 2;
+constraintType = 0;
 reSamPolicy = 'trandn'; % proj / trandn / rej
-param.numSample = 10000;
+param.numSample = 100;
 param.maxAttempt = 10;
 param.barrierSide = 0.2;
 param.barrierZ = [10;-10;-10;10];
-param.P = [50 0;0 1];
+param.P = [1 0;0 1];
 param.inputConstraint = [1 1;-1 -1];
 param.stateInputConstraint_F = @(x)[-20 0;20 0];
 param.stateInputConstraint_e = @(x)[-abs(x(2));-abs(x(2))];
@@ -130,8 +130,7 @@ plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,J)
 hold on
 
 %% plot three view drawing (no title)
-figure('Name','Three View Drawing');
-subplot(2,2,1) % side view
+figure('Name','Side View');
 plot(param.simStart:param.simInterval:param.simEnd,actualPath(2,:),'LineWidth',1);
 xlabel("t",'fontsize',param.fontSize)
 ylabel("z",'fontsize',param.fontSize)
@@ -139,7 +138,7 @@ hold on
 line([param.barrierX(1) param.barrierX(1)],[param.barrierSide*min(param.barrierZ) param.barrierSide*max(param.barrierZ)],'color','k','LineWidth',2);
 axis([0 2 -2 2])
 hold on
-subplot(2,2,2) % illustrative view
+figure('Name','Illustrative Diagram');
 plot3(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),actualPath(2,:),'LineWidth',1);
 hold on
 fill3(param.barrierTime*param.barrierX,param.barrierSide*param.barrierY,param.barrierSide*param.barrierZ,'black'); % plot barrier
@@ -150,7 +149,7 @@ xlabel("t",'fontsize',param.fontSize)
 ylabel("x",'fontsize',param.fontSize)
 zlabel("z",'fontsize',param.fontSize)
 hold on
-subplot(2,2,3) % top view
+figure('Name','Top View');
 plot(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),'LineWidth',1);
 hold on
 line([param.barrierX(1) param.barrierX(1)],[param.barrierSide*min(param.barrierY) param.barrierSide*max(param.barrierY)],'color','k','LineWidth',2);
@@ -158,7 +157,7 @@ xlabel("t",'fontsize',param.fontSize)
 ylabel("x",'fontsize',param.fontSize)
 hold on
 axis([0 2 -0.3 0.3])
-subplot(2,2,4) % constraint satisfaction
+figure('Name','Constraints Satisfaction');
 xlabel("t",'fontsize',param.fontSize)
 ylabel("20u_x",'fontsize',param.fontSize)
 hold on
