@@ -34,12 +34,12 @@ function [] = plotSample(initState,currentTime,param,constraintType)
 
     % plot samples
     if ~isempty(feasibleTrajectory)
-        plot(simHorizon,feasibleTrajectory)
+        plot(simHorizon,feasibleTrajectory,'LineWidth',1)
         hold on
     end
 
     if ~isempty(inFeasibleTrajectory)
-        plot(simHorizon(1:barrierStep),inFeasibleTrajectory)
+        plot(simHorizon(1:barrierStep),inFeasibleTrajectory,'LineWidth',1)
         hold on
     end
 
