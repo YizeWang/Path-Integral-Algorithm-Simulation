@@ -31,6 +31,8 @@ function [] = plotSample(initState,currentTime,param,constraintType)
     ax = gca;
     ax.FontSize = param.fontSize;
     hold on
+    box on
+    hold on
 
     % plot samples
     if ~isempty(feasibleTrajectory)
@@ -44,11 +46,15 @@ function [] = plotSample(initState,currentTime,param,constraintType)
     end
 
     % plot barriers
-    line([param.barrierTime; param.barrierTime],param.barrierPos,'color','k','LineWidth',2)
+    line([param.barrierTime; param.barrierTime],param.barrierPos,'color','k','LineWidth',8)
     hold on
 
     % plot initial state
-    plot(currentTime,initState,'.r','MarkerSize',20)
+    plot(currentTime,initState,'.r','MarkerSize',64)
     hold on
 
+    % plot target state
+    plot(param.simEnd,0,'.r','MarkerSize',64)
+    hold on
+    
 end

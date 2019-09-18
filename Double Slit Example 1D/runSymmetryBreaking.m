@@ -13,7 +13,7 @@ load('paramDoubleSlit')
 param.numSample = 50000;
 param.barrierPos = [-4,i,20;
                     -20,-i,4];
-param.uMin = -0.03;
+param.uMin = -0.1;
 param.uMax = 0.2;
 
 %% parameter initialization
