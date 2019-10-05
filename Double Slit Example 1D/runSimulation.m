@@ -1,5 +1,6 @@
 function [actualPath,U,J,Cost,Psi,isCollision] = runSimulation(initState,constraintType,param)
-% plotSample function. The function will plot all rollouts at any step.
+% runSimulation function. The function will run the simulation and plot
+% sample visualization, actual path, control input sequence and cost-to-go.
 %
 % Input:
 %   initState           a value of current position
@@ -86,7 +87,7 @@ plot(param.simStart:param.simInterval:param.simEnd,actualPath)
 hold on
 
 % plot barriers
-line([param.barrierTime; param.barrierTime],param.barrierPos,'color','k','LineWidth',2)
+line([param.barrierTime; param.barrierTime],param.barrierPos,'color','k','LineWidth',8*param.lineWidth)
 hold on
 
 % plot control input sequence
@@ -101,7 +102,7 @@ hold on
 plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,U)
 hold on
 if constraintType == 1
-    line([param.simStart param.simEnd],[param.uMax param.uMin;param.uMax param.uMin],'color','r','LineWidth',0.5)
+    line([param.simStart param.simEnd],[param.uMax param.uMin;param.uMax param.uMin],'color','r','LineWidth',param.lineWidth)
     hold on
 end
 

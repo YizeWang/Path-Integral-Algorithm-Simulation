@@ -9,6 +9,6 @@ function [u] = computeU(cost,psi,noiseInput,param)
 % Output:
 %   u                   optimal control input
 
-u = 1/psi*mean(noiseInput.*exp(-1/param.gamma*(cost-min(cost)))); %softmax
+u = 1/psi*mean(noiseInput.*exp(-1/param.gamma*(cost-min(cost)))); %soft-max
 
 end

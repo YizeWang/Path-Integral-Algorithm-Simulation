@@ -1,6 +1,6 @@
 function [trajectory,noiseInput] = computeTrajectory(initState,simHorizon,param,constraintType)
 % computeTrajectory function. The function will compute the noise-driven
-% trajectories starting from the initial state
+% trajectories starting from the initial state.
 %
 % Input:
 %   initState           a value of current position
@@ -28,7 +28,7 @@ elseif constraintType == 1      % if constrained applied on input
     noise(minViolation) = param.uMin;
     trajectory = cumsum([initState*ones(numSample,1) G*noise],2);
     noiseInput = noise(:,1);
-elseif constraintType == 2
+elseif constraintType == 2      % if state-input constraints
     numConstraint = size(param.e(0),1);
     trajectory = [initState*ones(numSample,1) zeros(numSample,size(simHorizon,2)-1)];
     noise = Q*randn(numSample,size(simHorizon,2)-1)*sqrt(param.simInterval);

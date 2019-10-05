@@ -36,25 +36,25 @@ function [] = plotSample(initState,currentTime,param,constraintType)
 
     % plot samples
     if ~isempty(feasibleTrajectory)
-        plot(simHorizon,feasibleTrajectory,'LineWidth',1)
+        plot(simHorizon,feasibleTrajectory,'LineWidth',param.lineWidth)
         hold on
     end
 
     if ~isempty(inFeasibleTrajectory)
-        plot(simHorizon(1:barrierStep),inFeasibleTrajectory,'LineWidth',1)
+        plot(simHorizon(1:barrierStep),inFeasibleTrajectory,'LineWidth',param.lineWidth)
         hold on
     end
 
     % plot barriers
-    line([param.barrierTime; param.barrierTime],param.barrierPos,'color','k','LineWidth',8)
+    line([param.barrierTime; param.barrierTime],param.barrierPos,'color','k','LineWidth',8*param.lineWidth)
     hold on
 
     % plot initial state
-    plot(currentTime,initState,'.r','MarkerSize',64)
+    plot(currentTime,initState,'.r','MarkerSize',32*param.lineWidth)
     hold on
 
     % plot target state
-    plot(param.simEnd,0,'.r','MarkerSize',64)
+    plot(param.simEnd,0,'.r','MarkerSize',32*param.lineWidth)
     hold on
     
 end
