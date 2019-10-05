@@ -1,3 +1,5 @@
+% compare different sampling polices with standard Gaussian distribution
+
 clc
 close all
 clear all
@@ -69,12 +71,12 @@ subplot(2,3,1)
 [Tra1,Temp1] = plotSample(initState,currentTime,param,constraintType,'proj');
 Temp12 = Temp1(1,1,:);
 noiseInput1 = Temp12(:);
-title("Re-Projection",'fontsize',param.fontSize)
+title("Projection",'fontsize',param.fontSize)
 hold on
 subplot(2,3,4)
 histogram(noiseInput1,edge)
 title("u_1 Histogram",'fontsize',param.fontSize)
-fprintf(['Reprojection Sampling: ' num2str(toc(tStart)) ' seconds\n']);
+fprintf(['projection Sampling: ' num2str(toc(tStart)) ' seconds\n']);
 % truncated Gaussian
 tStart = tic;
 subplot(2,3,2)

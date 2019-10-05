@@ -1,3 +1,5 @@
+% run the simulation for 2-DoF example
+
 clc
 close all
 clear all
@@ -6,7 +8,7 @@ clear all
 load('paramDoubleSlit');
 timeStart = tic;
 initState = [0;0];
-constraintType = 0;
+constraintType = 2;
 reSamPolicy = 'trandn'; % proj / trandn / rej
 param.numSample = 100;
 param.maxAttempt = 10;
@@ -92,7 +94,7 @@ plotSample(initState,0,param,constraintType,reSamPolicy);
 hold on
 % plot actual path
 subplot(2,2,2)
-plot3(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),actualPath(2,:),'LineWidth',1);
+plot3(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),actualPath(2,:),'LineWidth',param.lineWidth);
 hold on
 % plot barrier
 fill3(param.barrierTime*param.barrierX,param.barrierSide*param.barrierY,param.barrierSide*param.barrierZ,'black');
@@ -111,11 +113,11 @@ title("Constraints",'fontsize',param.fontSize)
 xlabel("t",'fontsize',param.fontSize)
 ylabel("20u_x",'fontsize',param.fontSize)
 hold on
-plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,20*U(1,:),'LineWidth',1)
+plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,20*U(1,:),'LineWidth',param.lineWidth)
 hold on
-plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,abs(actualPath(2,1:end-1)),'color','r','LineWidth',1)
+plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,abs(actualPath(2,1:end-1)),'color','r','LineWidth',param.lineWidth)
 hold on
-plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,-abs(actualPath(2,1:end-1)),'color','r','LineWidth',1)
+plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,-abs(actualPath(2,1:end-1)),'color','r','LineWidth',param.lineWidth)
 hold on
 legend('20u_x','±|z|','fontsize',param.fontSize)
 
@@ -131,15 +133,15 @@ hold on
 
 %% plot three view drawing (no title)
 figure('Name','Side View');
-plot(param.simStart:param.simInterval:param.simEnd,actualPath(2,:),'LineWidth',1);
+plot(param.simStart:param.simInterval:param.simEnd,actualPath(2,:),'LineWidth',param.lineWidth);
 xlabel("t",'fontsize',param.fontSize)
 ylabel("z",'fontsize',param.fontSize)
 hold on
-line([param.barrierX(1) param.barrierX(1)],[param.barrierSide*min(param.barrierZ) param.barrierSide*max(param.barrierZ)],'color','k','LineWidth',2);
+line([param.barrierX(1) param.barrierX(1)],[param.barrierSide*min(param.barrierZ) param.barrierSide*max(param.barrierZ)],'color','k','LineWidth',8*param.lineWidth);
 axis([0 2 -2 2])
 hold on
 figure('Name','Illustrative Diagram');
-plot3(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),actualPath(2,:),'LineWidth',1);
+plot3(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),actualPath(2,:),'LineWidth',param.lineWidth);
 hold on
 fill3(param.barrierTime*param.barrierX,param.barrierSide*param.barrierY,param.barrierSide*param.barrierZ,'black'); % plot barrier
 hold on
@@ -150,9 +152,9 @@ ylabel("x",'fontsize',param.fontSize)
 zlabel("z",'fontsize',param.fontSize)
 hold on
 figure('Name','Top View');
-plot(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),'LineWidth',1);
+plot(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),'LineWidth',param.lineWidth);
 hold on
-line([param.barrierX(1) param.barrierX(1)],[param.barrierSide*min(param.barrierY) param.barrierSide*max(param.barrierY)],'color','k','LineWidth',2);
+line([param.barrierX(1) param.barrierX(1)],[param.barrierSide*min(param.barrierY) param.barrierSide*max(param.barrierY)],'color','k','LineWidth',8*param.lineWidth);
 xlabel("t",'fontsize',param.fontSize)
 ylabel("x",'fontsize',param.fontSize)
 hold on
@@ -161,11 +163,11 @@ figure('Name','Constraints Satisfaction');
 xlabel("t",'fontsize',param.fontSize)
 ylabel("20u_x",'fontsize',param.fontSize)
 hold on
-plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,20*U(1,:),'LineWidth',1)
+plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,20*U(1,:),'LineWidth',param.lineWidth)
 hold on
-plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,abs(actualPath(2,1:end-1)),'color','r','LineWidth',1)
+plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,abs(actualPath(2,1:end-1)),'color','r','LineWidth',param.lineWidth)
 hold on
-plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,-abs(actualPath(2,1:end-1)),'color','r','LineWidth',1)
+plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,-abs(actualPath(2,1:end-1)),'color','r','LineWidth',param.lineWidth)
 hold on
 legend('20u_x','±|z|','fontsize',param.fontSize)
 

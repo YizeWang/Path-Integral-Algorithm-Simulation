@@ -1,5 +1,16 @@
 function [trajectory,noiseInput] = plotSample(initState,currentTime,param,constraintType,reSamPolicy)
-% plotSample function.
+% plotSample function. The function will plot all rollouts at any step.
+%
+% Input:
+%   initState           a vector of current position
+%   currentTime         a value of current step
+%   param               system parameters
+%   constraintType      the type of constraint
+%   reSamPolicy         sampling policy, can be 'proj', 'rej', 'trandn'
+% Output:
+%   visualization of samples
+%   trajectory          trajectories of all samples
+%   noiseInput          all sampled noise inputs
 
 %% load parameters
 simHorizon = currentTime:param.simInterval:param.simEnd;
@@ -75,7 +86,7 @@ axis ([0 param.simEnd -max(abs(axisLimit(3:6))) max(abs(axisLimit(3:6))) -max(ab
 hold on
 
 % plot initial state
-plot3(currentTime,initState(1),initState(2),'.k','MarkerSize',20)
+plot3(currentTime,initState(1),initState(2),'.k','MarkerSize',param.lineWidth)
 hold on
 
 end

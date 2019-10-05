@@ -4,11 +4,10 @@ function [u] = computeU(cost,psi,noiseInput,param)
 % Input:
 %   cost                a vector of cost associated with each trajectory
 %   psi                 the value of psi
+%   noiseInput          sampled noise inputs
 %   param               system parameters
-%   prevU               previous optimal input
 % Output:
 %   u                   optimal control input
-%   isControlFound      whether optimal control input found
 
 %% compute u
 unWeightedU = zeros(2,size(noiseInput,2));

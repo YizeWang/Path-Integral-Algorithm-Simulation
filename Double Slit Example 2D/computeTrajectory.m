@@ -7,9 +7,10 @@ function [trajectory,noiseInput] = computeTrajectory(initState,simHorizon,param,
 %   simHorizon          the simulation steps
 %   param               system parameters
 %   constraintType      the type of constraints
+%   reSamPolicy         sampling policy, can be 'proj', 'rej', 'trandn'
 % Output:
-%   trajectory          a matrix of rollout trajectories
-%   noiseInput          a vector of noise input at first step
+%   trajectory          rollout trajectories
+%   noiseInput          noise inputs
 
 %% load parameters
 G = param.G;
