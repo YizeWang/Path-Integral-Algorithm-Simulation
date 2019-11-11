@@ -1,6 +1,6 @@
-# Path Integral Control
+# Constrained Path Integral Optimal Control
 
-Path integral control methods are implemented in this project for both unconstrained and state-input-inequality-constrained cases.
+Path integral methods have been an important tool for systems with stochastic continuous dynamics. Recent work mainly focuses on unconstrained control problems while I investigated how to deal with systems constrained by state-input inequality. Details are explained in my report (which I cannot make public now) and the algorithm is implemented in both MATLAB and C++ (currently working on).
 
 ## Usage
 
@@ -16,5 +16,4 @@ Current maintainer is Yize Wang - yizwang@student.ethz.ch
 
 ## Acknowledgement
 
-I finished this project under the supervision of Jan Carius and Dr. Farbod Farshidian, without whose help I cannot make it.
-
+Thank Jan Carius and Dr. Farbod Farshidian for supervising me on the path integral algorithm.
