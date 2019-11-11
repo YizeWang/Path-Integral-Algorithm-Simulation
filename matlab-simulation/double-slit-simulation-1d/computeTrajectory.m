@@ -7,6 +7,9 @@ function [trajectory,noiseInput] = computeTrajectory(initState,simHorizon,param,
 %   simHorizon          the simulation steps
 %   param               system parameters
 %   constraintType      the type of constraint
+%                       0: no constraints
+%                       1: input constraints
+%                       2: state-input constraints
 % Output:
 %   trajectory          a matrix of rollout trajectories
 %   noiseInput          a vector of noise input at first step
@@ -20,7 +23,7 @@ if ~constraintType              % if no constraints applied
     noise = Q*randn(numSample,size(simHorizon,2)-1)*sqrt(param.simInterval);
     noiseInput = noise(:,1);
     trajectory = cumsum([initState*ones(numSample,1) G*noise],2);
-elseif constraintType == 1      % if constrained applied on input
+elseif constraintType == 1      % if constraints applied on input
     noise = Q*randn(numSample,size(simHorizon,2)-1)*sqrt(param.simInterval);
     maxViolation = G*noise>param.uMax;
     minViolation = G*noise<param.uMin;
@@ -37,7 +40,7 @@ elseif constraintType == 2      % if state-input constraints
             e = param.e(trajectory(n,t));
             F = param.F(trajectory(n,t));
             for c = 1:numConstraint
-                if e(c)+F(c)*noise(n,t)>0
+                if e(c)+F(c)*noise(n,t)>0 % projection sampling
                     noise(n,t) = -e(c)/F(c);
                 end
             end

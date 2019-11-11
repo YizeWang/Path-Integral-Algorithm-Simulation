@@ -6,6 +6,9 @@ function [] = plotSample(initState,currentTime,param,constraintType)
 %   currentTime         a value of current step
 %   param               system parameters
 %   constraintType      the type of constraint
+%                       0: no constraints
+%                       1: input constraints
+%                       2: state-input constraints
 % Output:
 %   visualization of samples
 

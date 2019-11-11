@@ -18,7 +18,7 @@ cost(~isBarrierDetected) = 0.5*trajectory(~isBarrierDetected,end).^2;
 if min(cost) == inf % if all path crashed
     psi = 0;
 else                % if there exists at least one feasible path
-    psi = mean(exp(-1/param.gamma*(cost-min(cost)))); %softmax
+    psi = mean(exp(-1/param.gamma*(cost-min(cost)))); % softmax
 end
 
 end

@@ -3,8 +3,11 @@ function [actualPath,U,J,Cost,Psi,isCollision] = runSimulation(initState,constra
 % sample visualization, actual path, control input sequence and cost-to-go.
 %
 % Input:
-%   initState           a value of current position
+%   initState           a value of initial position
 %   constraintType      the type of constraint
+%                       0: no constraints
+%                       1: input constraints
+%                       2: state-input constraints
 %   param               system parameters
 % Output:
 %   actualPath          a matrix of actual trajectories
