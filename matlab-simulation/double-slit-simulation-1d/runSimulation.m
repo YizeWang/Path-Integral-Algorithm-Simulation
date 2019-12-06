@@ -16,6 +16,9 @@ function [actualPath,U,J,Cost,Psi,isCollision] = runSimulation(initState,constra
 %   Cost                matrix of cost
 %   Psi                 vector of Psi
 %   isCollision         boolean, whether crashed
+%
+% Author: Yize Wang
+% Email: yizwang@student.ethz.ch
 
 %% parameter initialization
 u = 0; % if no control found at first step

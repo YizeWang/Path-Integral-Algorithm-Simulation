@@ -1,4 +1,7 @@
 % run the simulation for 2-DoF example
+%
+% Author: Yize Wang
+% Email: yizwang@student.ethz.ch
 
 clc
 close all
@@ -136,6 +139,7 @@ figure('Name','Side View');
 plot(param.simStart:param.simInterval:param.simEnd,actualPath(2,:),'LineWidth',param.lineWidth);
 xlabel("t",'fontsize',param.fontSize)
 ylabel("z",'fontsize',param.fontSize)
+title("Side View",'fontsize',param.fontSize)
 hold on
 line([param.barrierX(1) param.barrierX(1)],[param.barrierSide*min(param.barrierZ) param.barrierSide*max(param.barrierZ)],'color','k','LineWidth',8*param.lineWidth);
 axis([0 2 -2 2])
@@ -150,6 +154,7 @@ axis ([0 param.simEnd -axisLimit axisLimit -axisLimit axisLimit])
 xlabel("t",'fontsize',param.fontSize)
 ylabel("x",'fontsize',param.fontSize)
 zlabel("z",'fontsize',param.fontSize)
+title("Illustrative Diagram",'fontsize',param.fontSize)
 hold on
 figure('Name','Top View');
 plot(param.simStart:param.simInterval:param.simEnd,actualPath(1,:),'LineWidth',param.lineWidth);
@@ -157,11 +162,13 @@ hold on
 line([param.barrierX(1) param.barrierX(1)],[param.barrierSide*min(param.barrierY) param.barrierSide*max(param.barrierY)],'color','k','LineWidth',8*param.lineWidth);
 xlabel("t",'fontsize',param.fontSize)
 ylabel("x",'fontsize',param.fontSize)
+title("Top View",'fontsize',param.fontSize)
 hold on
 axis([0 2 -0.3 0.3])
 figure('Name','Constraints Satisfaction');
 xlabel("t",'fontsize',param.fontSize)
 ylabel("20u_x",'fontsize',param.fontSize)
+title("Constraints Satisfaction",'fontsize',param.fontSize)
 hold on
 plot(param.simStart:param.simInterval:param.simEnd-param.simInterval,20*U(1,:),'LineWidth',param.lineWidth)
 hold on

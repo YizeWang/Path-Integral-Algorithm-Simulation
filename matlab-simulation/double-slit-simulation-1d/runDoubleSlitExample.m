@@ -1,4 +1,7 @@
 % run the simulation for both constrained and unconstrained cases
+%
+% Author: Yize Wang
+% Email: yizwang@student.ethz.ch
 
 clc
 clear all

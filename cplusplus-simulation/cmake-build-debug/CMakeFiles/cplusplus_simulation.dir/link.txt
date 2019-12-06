@@ -1,1 +1,0 @@
-/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/cplusplus_simulation.dir/main.cpp.o  -o cplusplus_simulation.exe -Wl,--out-implib,libcplusplus_simulation.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
