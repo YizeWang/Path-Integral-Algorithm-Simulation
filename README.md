@@ -4,11 +4,11 @@ Path integral methods have been an important tool for systems with stochastic co
 
 ## Usage
 
-To test 1-DoF simulation, run runDoubleSlitExample.m in the folder "Double Slit Example 1D".
+- To test 1-DoF simulation, run `runDoubleSlitExample.m` in the folder `Double Slit Example 1D`
 
-To test 2-DoF simulation, run runSimulation.m in the folder "Double Slit Example 2D".
+- To test 2-DoF simulation, run `runSimulation.m` in the folder `Double Slit Example 2D`
 
-The parameters are stored in the file "paramDoubleSlit.mat".
+- The parameters are stored in the file `paramDoubleSlit.mat`
 
 ## Maintainer
 
