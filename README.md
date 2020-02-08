@@ -1,6 +1,6 @@
 # Constrained Path Integral Optimal Control
 
-Path integral methods have been an important tool for systems with stochastic continuous dynamics. Recent work mainly focuses on unconstrained control problems while I investigated how to deal with systems constrained by state-input inequality. Details are explained in my report (which I cannot make public now) and the algorithm is implemented in both MATLAB and C++ (currently working on).
+Path integral methods have been an important tool for systems with stochastic continuous dynamics. Recent work mainly focuses on unconstrained control problems while I investigated how to deal with systems constrained by state-input inequality. Details are explained in `Final Report` under `doc` directory and the path integral algorithms are implemented in MATLAB, which can be found under `src`.
 
 ## Usage
 
@@ -12,7 +12,7 @@ Path integral methods have been an important tool for systems with stochastic co
 
 ## Maintainer
 
-Current maintainer is Yize Wang - yizwang@student.ethz.ch
+Current maintainer is Yize Wang - `yizwang@student.ethz.ch`
 
 ## Acknowledgement
 
