@@ -12,7 +12,7 @@ Path integral methods have been an important tool for systems with stochastic co
 
 ## Maintainer
 
-Current maintainer is Yize Wang - `yizwang@student.ethz.ch`
+This repository is out of maintenance.
 
 ## Acknowledgement
 
